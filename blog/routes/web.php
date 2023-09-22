@@ -15,8 +15,11 @@ use App\Models\Post;
 |
 */
 
-Route::get('/', function () {
-    return view('posts');
+Route::get('/', function () { 
+    
+    return view('posts', [
+        'posts' => Post::all()
+    ]);
 });
 
 Route::get('posts/{post}', function ($slug) {    
