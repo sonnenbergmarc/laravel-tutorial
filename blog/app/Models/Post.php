@@ -27,24 +27,37 @@ class Post
     }
     public static function all()
     {
+        return cache()->rememberForever('posts.all', function() {
             // Arrow function method fn($file) =>
-        return collect(File::files(resource_path('posts')))
-        ->map(fn($file) => YamlFrontMatter::parseFile($file))
-        ->map(fn($document) => new Post(
-                $document->title,
-                $document->excerpt,
-                $document->date,
-                $document->body(),
-                $document->slug
-        ))
-        ->sortByDesc('date');
-        
-        // None arrow function method
-        // ->map(function ($file) {
-        //     return YamlFrontMatter::parseFile($file);
-        // })
-        // ->map(function ($document) {
+            return collect(File::files(resource_path('posts')))
+            ->map(fn($file) => YamlFrontMatter::parseFile($file))
+            ->map(fn($document) => new Post(
+                    $document->title,
+                    $document->excerpt,
+                    $document->date,
+                    $document->body(),
+                    $document->slug
+            ))
+            ->sortByDesc('date');
             
+            // None arrow function method
+            // ->map(function ($file) {
+            //     return YamlFrontMatter::parseFile($file);
+            // })
+            // ->map(function ($document) {
+                
+
+            //     return new Post(
+            //         $document->title,
+            //         $document->excerpt,
+            //         $document->date,
+            //         $document->body(),
+            //         $document->slug
+            //     );
+            // });
+        // Another Way of Doing a map or foreach loop
+        // $posts = array_map(function ($file) { 
+        //     $document = YamlFrontMatter::parseFile($file);
 
         //     return new Post(
         //         $document->title,
@@ -53,19 +66,9 @@ class Post
         //         $document->body(),
         //         $document->slug
         //     );
-        // });
-    // Another Way of Doing a map or foreach loop
-    // $posts = array_map(function ($file) { 
-    //     $document = YamlFrontMatter::parseFile($file);
+        // }, $files);
+        });
 
-    //     return new Post(
-    //         $document->title,
-    //         $document->excerpt,
-    //         $document->date,
-    //         $document->body(),
-    //         $document->slug
-    //     );
-    // }, $files);
     }
     public static function find($slug)
     {
