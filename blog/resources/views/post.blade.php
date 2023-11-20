@@ -1,9 +1,4 @@
-<!doctype html>
-
-<title>My Blog</title>
-<link rel="stylesheet" href="/app.css">
-
-<body>
+<x-layout>
     <article>
         <h1>{{ $post->title }}</h1>
         <div>
@@ -12,4 +7,4 @@
     </article>
 
     <a href="/">Go Back</a>
-</body>
+</x-layout>
