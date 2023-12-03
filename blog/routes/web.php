@@ -1,9 +1,12 @@
 <?php
 
 // use App\Http\Controllers\ProfileController;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
-
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +19,9 @@ use App\Models\Post;
 |
 */
 
-Route::get('/', function () { 
+Route::get('/', function () {
     return view('posts', [
-        'posts' => Post::all()
+        'posts' => Post::with('category')->get()
     ]);
 });
 
@@ -30,6 +33,11 @@ Route::get('posts/{post:slug}', function (POST $post) {
 
 });
 
+Route::get('categories/{category:slug}', function (Category $category) {
+    return view('posts', [
+        'posts' => $category->posts
+    ]);
+});
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

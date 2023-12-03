@@ -5,15 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Category extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-
-    public function category()
+    public function posts()
     {
         // Laravel relationships hasOne, hasMany, belongsTo, belongsToMany
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(Post::class);
     }
 }
