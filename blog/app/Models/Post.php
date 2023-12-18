@@ -13,16 +13,17 @@ class Post extends Model
 
     protected $with = ['category', 'author'];
 
-    
+
     public function scopeFilter($query, array $filters) // Post::newQuery()->filter()
     {
         //Another way of doing the scopeFilter
 
-        $query->when($filters['search'] ?? false, function ($query, $search) {
-            $query
-                ->where('title', 'like', '%' . $search . '%')
-                ->orWhere('body', 'like', '%' . $search . '%');
-        });
+        $query->when($filters['search'] ?? false,  fn($query, $search) =>
+            $query->where(fn($query) =>
+                $query->where('title', 'like', '%' . $search . '%')
+                ->orWhere('body', 'like', '%' . $search . '%')
+            )
+        );
 
         $query->when($filters['category'] ?? false, fn($query, $category) =>
             $query->whereHas('category', fn($query)=>
