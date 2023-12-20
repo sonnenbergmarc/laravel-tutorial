@@ -49,6 +49,11 @@ class Post extends Model
         //         ->orWhere('body', 'like', '%' . request('search') . '%');
         // }
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
     public function category()
     {
         // Laravel relationships hasOne, hasMany, belongsTo, belongsToMany
