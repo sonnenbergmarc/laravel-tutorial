@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Validation\ValidationException;
-use PharIo\Manifest\Email;
+
 
 class SessionsController extends Controller
 {
@@ -21,21 +21,19 @@ class SessionsController extends Controller
 
         //attempt to authenticate and log in txzxxz@lksjas.comhe user
         // based on the provided credentials
-        if (auth()->attempt($attributes)) {
-            session()->regenerate();
-            // redirect with a success flash message
-            return redirect('/')->with('success','Welcome Back!');
+        if (!auth()->attempt($attributes)) {
+            // auth failed
+            throw ValidationException::withMessages([
+                'email' => 'Your provided credentials could not be verified.'
+            ]);
+            // return back()
+            //     ->withInput()
+            //     ->withErrors(['email' => 'Your provided credentials could not be verified.']); //$errors
         }
 
-        // auth failed
-        throw ValidationException::withMessages([
-            'email' => 'Your provided credentials could not be verified.'
-        ]);
-        // return back()
-        //     ->withInput()
-        //     ->withErrors(['email' => 'Your provided credentials could not be verified.']); //$errors
-
-
+        session()->regenerate();
+        // redirect with a success flash message
+        return redirect('/')->with('success','Welcome Back!');
     }
     public function destroy()
     {
