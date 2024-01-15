@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+// use App\Services\MailchimpNewsletter;
 use App\Services\Newsletter;
 use Exception;
 use Illuminate\Validation\ValidationException;
@@ -9,6 +10,8 @@ use Illuminate\Validation\ValidationException;
 class NewsletterController extends Controller
 {
     // This is called automatic resoluation: automatic resoluation dependencies. We didn't say new Newsletter and yet it still worked.
+    // This is the simple version when using one mail server. The other is for multiple server types.
+    // public function __invoke(MailchimpNewsletter $newsletter)
     public function __invoke(Newsletter $newsletter)
     {
         request()->validate(['email'=> 'required|email']);
